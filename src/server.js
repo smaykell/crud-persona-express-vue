@@ -1,0 +1,15 @@
+const express = require("express")
+const app = express()
+const routes = require("./routes")
+const path = require("path")
+const logger = require("morgan")
+
+app
+    .set("port", process.env.PORT || 3000)
+    .use(logger("dev"))
+    .use(express.static(path.join(__dirname, "./public")))
+    .use(express.urlencoded({ extended: true }))
+    .use(express.json())
+    .use("/crud", require("./routes/persona"))
+    .use(routes)
+    .listen(app.get("port"), () => { console.log(`Server listening on port ${app.get("port")}`) })
